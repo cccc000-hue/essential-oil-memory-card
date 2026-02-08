@@ -105,7 +105,7 @@
 
     <div class="search-container">
         <div class="search-input-wrapper">
-            <input type="text" class="search-input" id="searchInput" placeholder="搜尋...">
+            <input type="text" class="search-input" id="searchInput" placeholder="搜尋名稱、功效、成份...">
             <button class="clear-btn" id="clearBtn">✕</button>
         </div>
     </div>
@@ -338,9 +338,15 @@
                         filteredData = [];
                         for (var i = 0; i < oilsData.length; i++) {
                             var item = oilsData[i];
-                            if (item.cn.indexOf(query) > -1 || 
-                                item.en.toLowerCase().indexOf(query) > -1 || 
-                                item.latin.toLowerCase().indexOf(query) > -1) {
+                            // 擴展搜尋範圍：加入 prop (功效), chem (化學), family (科屬)
+                            if (
+                                (item.cn && item.cn.indexOf(query) > -1) ||
+                                (item.en && item.en.toLowerCase().indexOf(query) > -1) ||
+                                (item.latin && item.latin.toLowerCase().indexOf(query) > -1) ||
+                                (item.prop && item.prop.toLowerCase().indexOf(query) > -1) || // 加入功效
+                                (item.chem && item.chem.toLowerCase().indexOf(query) > -1) || // 順便加入化學
+                                (item.family && item.family.toLowerCase().indexOf(query) > -1) // 順便加入科屬
+                            ) {
                                 filteredData.push(item);
                             }
                         }
